@@ -133,13 +133,13 @@ export default function RegisterForm() {
     >
       {/* Basic Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-          <User className="w-5 h-5 text-blue-400" />
+        <h3 className="text-lg font-semibold text-foreground-primary flex items-center gap-2">
+          <User className="w-5 h-5 text-accent" />
           Basic Information
         </h3>
         
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="name" className="block text-sm font-medium text-foreground-primary mb-2">
             Full Name
           </label>
           <input
@@ -155,11 +155,11 @@ export default function RegisterForm() {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-foreground-primary mb-2">
             Email Address
           </label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted" />
             <input
               type="email"
               id="email"
@@ -176,13 +176,13 @@ export default function RegisterForm() {
 
       {/* Academic Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-foreground-primary flex items-center gap-2">
           <GraduationCap className="w-5 h-5 text-purple-400" />
           Academic Information
         </h3>
         
         <div>
-          <label htmlFor="university" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="university" className="block text-sm font-medium text-foreground-primary mb-2">
             University
           </label>
           <div className="relative">
@@ -201,12 +201,12 @@ export default function RegisterForm() {
                 </option>
               ))}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted pointer-events-none" />
           </div>
         </div>
 
         <div>
-          <label htmlFor="level" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="level" className="block text-sm font-medium text-foreground-primary mb-2">
             Academic Level
           </label>
           <div className="relative">
@@ -225,12 +225,12 @@ export default function RegisterForm() {
               <option value="Senior">Senior</option>
               <option value="Graduate">Graduate</option>
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted pointer-events-none" />
           </div>
         </div>
 
         <div>
-          <label htmlFor="interests" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="interests" className="block text-sm font-medium text-foreground-primary mb-2">
             Academic Interests
           </label>
           <input
@@ -248,17 +248,17 @@ export default function RegisterForm() {
 
       {/* Completed Courses Section */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-foreground-primary flex items-center gap-2">
           <BookOpen className="w-5 h-5 text-pink-400" />
           Completed Courses
         </h3>
-        <p className="text-sm text-gray-400 bg-gray-800/30 rounded-lg p-3 border border-gray-700/50">
+        <p className="text-sm text-foreground-muted bg-gray-800/30 rounded-lg p-3 border border-gray-700/50">
           Help us provide better recommendations by telling us about courses you've already completed.
         </p>
         
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="completedSocialSciences" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="completedSocialSciences" className="block text-sm font-medium text-foreground-primary mb-2">
               Social Sciences Courses
             </label>
             <select
@@ -277,7 +277,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedHumanities" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="completedHumanities" className="block text-sm font-medium text-foreground-primary mb-2">
               Humanities Courses
             </label>
             <select
@@ -296,7 +296,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedMathematics" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="completedMathematics" className="block text-sm font-medium text-foreground-primary mb-2">
               Mathematics Courses
             </label>
             <select
@@ -315,7 +315,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedNaturalSciences" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="completedNaturalSciences" className="block text-sm font-medium text-foreground-primary mb-2">
               Natural Sciences Courses
             </label>
             <select
@@ -334,7 +334,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedComputerScience" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="completedComputerScience" className="block text-sm font-medium text-foreground-primary mb-2">
               Computer Science Courses
             </label>
             <select
@@ -356,17 +356,17 @@ export default function RegisterForm() {
 
       {/* Password Section */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-foreground-primary flex items-center gap-2">
           <Lock className="w-5 h-5 text-green-400" />
           Security
         </h3>
         
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-foreground-primary mb-2">
             Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted" />
             <input
               type={showPassword ? "text" : "password"}
               id="password"
@@ -380,7 +380,7 @@ export default function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-foreground-muted hover:text-foreground-primary transition-colors"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -388,11 +388,11 @@ export default function RegisterForm() {
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground-primary mb-2">
             Confirm Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted" />
             <input
               type={showConfirmPassword ? "text" : "password"}
               id="confirmPassword"
@@ -406,7 +406,7 @@ export default function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-foreground-muted hover:text-foreground-primary transition-colors"
             >
               {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>

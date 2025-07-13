@@ -35,11 +35,11 @@ export default function LoginForm() {
       className="space-y-6"
     >
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+        <label htmlFor="email" className="block text-sm font-medium text-foreground-primary mb-2">
           Email Address
         </label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted" />
           <input
             type="email"
             id="email"
@@ -53,11 +53,11 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+        <label htmlFor="password" className="block text-sm font-medium text-foreground-primary mb-2">
           Password
         </label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted" />
           <input
             type={showPassword ? "text" : "password"}
             id="password"
@@ -70,7 +70,7 @@ export default function LoginForm() {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-foreground-muted hover:text-foreground-secondary transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
@@ -105,7 +105,7 @@ export default function LoginForm() {
       </motion.button>
 
       <div className="text-center">
-        <p className="text-sm text-gray-400 bg-gray-800/30 rounded-lg p-3 border border-gray-700/50">
+        <p className="text-sm text-foreground-muted bg-background-secondary/30 rounded-lg p-3 border border-border/50">
           💡 Demo: Any email/password combination will work
         </p>
       </div>

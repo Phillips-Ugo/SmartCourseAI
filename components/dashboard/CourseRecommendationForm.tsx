@@ -247,8 +247,8 @@ export default function CourseRecommendationForm({ onGetRecommendations }: Cours
       </div>
 
       <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-        <h3 className="font-medium text-blue-900 mb-2">Current Profile</h3>
-        <div className="text-sm text-blue-800 space-y-1">
+        <h3 className="font-medium text-blue-600 mb-2">Current Profile</h3>
+        <div className="text-sm text-blue-500 space-y-1">
           <p><strong>University:</strong> {user?.university}</p>
           <p><strong>Level:</strong> {user?.level}</p>
           <p><strong>Interests:</strong> {user?.interests.join(', ')}</p>

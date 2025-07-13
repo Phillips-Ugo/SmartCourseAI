@@ -16,38 +16,37 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
 
+  // Apply theme to document
+  const applyTheme = (newTheme: Theme) => {
+    const root = document.documentElement
+    
+    // Remove existing classes
+    root.classList.remove('light', 'dark')
+    
+    // Add new class
+    root.classList.add(newTheme)
+    
+    // Store preference
+    localStorage.setItem('smartcourseai_theme', newTheme)
+  }
+
+  // Initialize theme on mount
   useEffect(() => {
-    // Check for stored theme preference or default to dark
+    if (typeof window === 'undefined') return
+
+    // Get stored theme or default to dark
     const storedTheme = localStorage.getItem('smartcourseai_theme') as Theme
-    if (storedTheme) {
-      setThemeState(storedTheme)
-    }
+    const initialTheme = storedTheme || 'dark'
+    
+    setThemeState(initialTheme)
+    applyTheme(initialTheme)
     setMounted(true)
   }, [])
 
+  // Apply theme when it changes
   useEffect(() => {
     if (!mounted) return
-
-    // Update document class and store preference
-    document.documentElement.classList.remove('light', 'dark')
-    document.documentElement.classList.add(theme)
-    localStorage.setItem('smartcourseai_theme', theme)
-
-    // Update CSS custom properties for smooth transitions
-    const root = document.documentElement
-    if (theme === 'dark') {
-      root.style.setProperty('--bg-primary', '#111827')
-      root.style.setProperty('--bg-secondary', '#1f2937')
-      root.style.setProperty('--text-primary', '#f9fafb')
-      root.style.setProperty('--text-secondary', '#d1d5db')
-      root.style.setProperty('--border-color', '#374151')
-    } else {
-      root.style.setProperty('--bg-primary', '#ffffff')
-      root.style.setProperty('--bg-secondary', '#f9fafb')
-      root.style.setProperty('--text-primary', '#111827')
-      root.style.setProperty('--text-secondary', '#6b7280')
-      root.style.setProperty('--border-color', '#e5e7eb')
-    }
+    applyTheme(theme)
   }, [theme, mounted])
 
   const toggleTheme = () => {
@@ -60,7 +59,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Prevent hydration mismatch
   if (!mounted) {
-    return <div className="dark" style={{ visibility: 'hidden' }}>{children}</div>
+    return (
+      <div 
+        className="dark" 
+        style={{ 
+          visibility: 'hidden',
+          background: 'var(--bg-primary)',
+          color: 'var(--text-primary)'
+        }}
+      >
+        {children}
+      </div>
+    )
   }
 
   return (
