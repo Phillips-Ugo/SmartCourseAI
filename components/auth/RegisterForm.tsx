@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useAuth } from '@/components/providers/AuthProvider'
 import { getAllUniversities } from '@/lib/universities'
+import { motion } from 'framer-motion'
+import { User, Mail, Lock, GraduationCap, BookOpen, Eye, EyeOff, ChevronDown } from 'lucide-react'
 
 interface User {
   id: string
@@ -37,6 +39,8 @@ export default function RegisterForm() {
   })
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const { register } = useAuth()
 
   const universities = getAllUniversities()
@@ -121,107 +125,140 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-          Full Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="input-field"
-          placeholder="Enter your full name"
-          required
-        />
+    <motion.form 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      onSubmit={handleSubmit} 
+      className="space-y-6"
+    >
+      {/* Basic Information */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <User className="w-5 h-5 text-blue-400" />
+          Basic Information
+        </h3>
+        
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="input-field"
+            placeholder="Enter your full name"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+            Email Address
+          </label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="input-field pl-10"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="input-field"
-          placeholder="Enter your email"
-          required
-        />
-      </div>
+      {/* Academic Information */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <GraduationCap className="w-5 h-5 text-purple-400" />
+          Academic Information
+        </h3>
+        
+        <div>
+          <label htmlFor="university" className="block text-sm font-medium text-gray-300 mb-2">
+            University
+          </label>
+          <div className="relative">
+            <select
+              id="university"
+              name="university"
+              value={formData.university}
+              onChange={handleChange}
+              className="input-field appearance-none pr-10"
+              required
+            >
+              <option value="">Select your university</option>
+              {universities.map((uni) => (
+                <option key={uni.id} value={uni.name}>
+                  {uni.name} - {uni.location}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+          </div>
+        </div>
 
-      <div>
-        <label htmlFor="university" className="block text-sm font-medium text-gray-700 mb-1">
-          University
-        </label>
-        <select
-          id="university"
-          name="university"
-          value={formData.university}
-          onChange={handleChange}
-          className="input-field"
-          required
-        >
-          <option value="">Select your university</option>
-          {universities.map((uni) => (
-            <option key={uni.id} value={uni.name}>
-              {uni.name} - {uni.location}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div>
+          <label htmlFor="level" className="block text-sm font-medium text-gray-300 mb-2">
+            Academic Level
+          </label>
+          <div className="relative">
+            <select
+              id="level"
+              name="level"
+              value={formData.level}
+              onChange={handleChange}
+              className="input-field appearance-none pr-10"
+              required
+            >
+              <option value="">Select your level</option>
+              <option value="Freshman">Freshman</option>
+              <option value="Sophomore">Sophomore</option>
+              <option value="Junior">Junior</option>
+              <option value="Senior">Senior</option>
+              <option value="Graduate">Graduate</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+          </div>
+        </div>
 
-      <div>
-        <label htmlFor="level" className="block text-sm font-medium text-gray-700 mb-1">
-          Academic Level
-        </label>
-        <select
-          id="level"
-          name="level"
-          value={formData.level}
-          onChange={handleChange}
-          className="input-field"
-          required
-        >
-          <option value="">Select your level</option>
-          <option value="Freshman">Freshman</option>
-          <option value="Sophomore">Sophomore</option>
-          <option value="Junior">Junior</option>
-          <option value="Senior">Senior</option>
-          <option value="Graduate">Graduate</option>
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="interests" className="block text-sm font-medium text-gray-700 mb-1">
-          Interests (comma-separated)
-        </label>
-        <input
-          type="text"
-          id="interests"
-          name="interests"
-          value={formData.interests}
-          onChange={handleChange}
-          className="input-field"
-          placeholder="e.g., Computer Science, AI, Mathematics"
-          required
-        />
+        <div>
+          <label htmlFor="interests" className="block text-sm font-medium text-gray-300 mb-2">
+            Academic Interests
+          </label>
+          <input
+            type="text"
+            id="interests"
+            name="interests"
+            value={formData.interests}
+            onChange={handleChange}
+            className="input-field"
+            placeholder="e.g., Computer Science, AI, Mathematics"
+            required
+          />
+        </div>
       </div>
 
       {/* Completed Courses Section */}
-      <div className="border-t pt-4">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Completed Courses</h3>
-        <p className="text-sm text-gray-600 mb-4">
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <BookOpen className="w-5 h-5 text-pink-400" />
+          Completed Courses
+        </h3>
+        <p className="text-sm text-gray-400 bg-gray-800/30 rounded-lg p-3 border border-gray-700/50">
           Help us provide better recommendations by telling us about courses you've already completed.
         </p>
         
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="completedSocialSciences" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="completedSocialSciences" className="block text-sm font-medium text-gray-300 mb-2">
               Social Sciences Courses
             </label>
             <select
@@ -240,7 +277,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedHumanities" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="completedHumanities" className="block text-sm font-medium text-gray-300 mb-2">
               Humanities Courses
             </label>
             <select
@@ -259,7 +296,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedMathematics" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="completedMathematics" className="block text-sm font-medium text-gray-300 mb-2">
               Mathematics Courses
             </label>
             <select
@@ -278,7 +315,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedNaturalSciences" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="completedNaturalSciences" className="block text-sm font-medium text-gray-300 mb-2">
               Natural Sciences Courses
             </label>
             <select
@@ -297,7 +334,7 @@ export default function RegisterForm() {
           </div>
 
           <div>
-            <label htmlFor="completedComputerScience" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="completedComputerScience" className="block text-sm font-medium text-gray-300 mb-2">
               Computer Science Courses
             </label>
             <select
@@ -317,51 +354,92 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="input-field"
-          placeholder="Enter your password"
-          required
-        />
-      </div>
+      {/* Password Section */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <Lock className="w-5 h-5 text-green-400" />
+          Security
+        </h3>
+        
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+            Password
+          </label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="input-field pl-10 pr-10"
+              placeholder="Enter your password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+            >
+              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
 
-      <div>
-        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          className="input-field"
-          placeholder="Confirm your password"
-          required
-        />
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+            Confirm Password
+          </label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="input-field pl-10 pr-10"
+              placeholder="Confirm your password"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
+            >
+              {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
       </div>
 
       {error && (
-        <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg">
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-4 rounded-xl backdrop-blur-sm"
+        >
           {error}
-        </div>
+        </motion.div>
       )}
 
-      <button
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         type="submit"
         disabled={isLoading}
-        className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+        className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed text-lg py-4"
       >
-        {isLoading ? 'Creating account...' : 'Create Account'}
-      </button>
-    </form>
+        {isLoading ? (
+          <div className="flex items-center justify-center space-x-2">
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <span>Creating account...</span>
+          </div>
+        ) : (
+          'Create Account'
+        )}
+      </motion.button>
+    </motion.form>
   )
 } 

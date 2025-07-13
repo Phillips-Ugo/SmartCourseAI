@@ -1,21 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/components/providers/AuthProvider'
 import LoginForm from '@/components/auth/LoginForm'
 import RegisterForm from '@/components/auth/RegisterForm'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Header from '@/components/layout/Header'
 import { motion } from 'framer-motion'
+import { Brain, MessageCircle, Target, Sparkles, ArrowRight, Star, Zap } from 'lucide-react'
 
 export default function Home() {
   const { user, loading } = useAuth()
   const [showLogin, setShowLogin] = useState(true)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="relative">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+          <div className="absolute inset-0 animate-ping rounded-full h-16 w-16 border-2 border-purple-500 opacity-20"></div>
+        </div>
       </div>
     )
   }
@@ -25,99 +34,190 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
       <Header />
       
-      <main className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
+      <main className="relative z-10 container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto">
           {/* Hero Section */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center mb-16"
           >
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 rounded-full px-6 py-3 mb-8"
+            >
+              <Sparkles className="w-5 h-5 text-blue-400" />
+              <span className="text-blue-300 font-medium">AI-Powered Course Recommendations</span>
+            </motion.div>
+
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-6xl md:text-7xl font-bold mb-6"
+            >
               Welcome to{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-purple-600">
+              <span className="text-gradient bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
                 SmartCourseAI
               </span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Get personalized course recommendations powered by AI. Input your interests, 
-              current university level, and let our intelligent system suggest the perfect courses for your academic journey.
-            </p>
+            </motion.h1>
+
+            <motion.p 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+            >
+              Transform your academic journey with intelligent course recommendations. 
+              Let AI guide you to the perfect classes for your future.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <button 
+                onClick={() => setShowLogin(false)}
+                className="btn-primary group flex items-center gap-2 text-lg px-8 py-4"
+              >
+                Get Started
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button 
+                onClick={() => setShowLogin(true)}
+                className="btn-secondary text-lg px-8 py-4"
+              >
+                Sign In
+              </button>
+            </motion.div>
           </motion.div>
 
           {/* Features Grid */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="grid md:grid-cols-3 gap-8 mb-12"
+            transition={{ delay: 1, duration: 0.8 }}
+            className="grid md:grid-cols-3 gap-8 mb-16"
           >
-            <div className="card text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
+            <motion.div 
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="glass-card p-8 text-center group cursor-pointer"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Brain className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">AI-Powered Recommendations</h3>
-              <p className="text-gray-600">Get personalized course suggestions based on your interests and academic level</p>
-            </div>
+              <h3 className="text-xl font-semibold mb-4 text-white">AI-Powered Recommendations</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Get personalized course suggestions based on your interests, academic level, and career goals
+              </p>
+            </motion.div>
 
-            <div className="card text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
+            <motion.div 
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="glass-card p-8 text-center group cursor-pointer"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <MessageCircle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">AI Chatbot Assistant</h3>
-              <p className="text-gray-600">Chat with our AI assistant for course registration questions and guidance</p>
-            </div>
+              <h3 className="text-xl font-semibold mb-4 text-white">AI Chatbot Assistant</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Chat with our intelligent assistant for course registration questions and academic guidance
+              </p>
+            </motion.div>
 
-            <div className="card text-center">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            <motion.div 
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="glass-card p-8 text-center group cursor-pointer"
+            >
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Target className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Smart Planning</h3>
-              <p className="text-gray-600">Plan your academic journey with detailed course information and credit tracking</p>
+              <h3 className="text-xl font-semibold mb-4 text-white">Smart Planning</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Plan your academic journey with detailed course information and graduation progress tracking
+              </p>
+            </motion.div>
+          </motion.div>
+
+          {/* Stats Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+          >
+            <div className="glass-card p-6 text-center">
+              <div className="text-3xl font-bold text-gradient mb-2">500+</div>
+              <div className="text-gray-300">Courses Available</div>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <div className="text-3xl font-bold text-gradient mb-2">95%</div>
+              <div className="text-gray-300">Accuracy Rate</div>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <div className="text-3xl font-bold text-gradient mb-2">10k+</div>
+              <div className="text-gray-300">Students Helped</div>
+            </div>
+            <div className="glass-card p-6 text-center">
+              <div className="text-3xl font-bold text-gradient mb-2">24/7</div>
+              <div className="text-gray-300">AI Support</div>
             </div>
           </motion.div>
 
           {/* Auth Forms */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 1.4, duration: 0.8 }}
             className="max-w-md mx-auto"
           >
-            <div className="card">
-              <div className="flex mb-6">
+            <div className="glass-card p-8">
+              <div className="flex mb-8 bg-gray-800/50 rounded-xl p-1">
                 <button
                   onClick={() => setShowLogin(true)}
-                  className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
                     showLogin
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                   }`}
                 >
-                  Login
+                  Sign In
                 </button>
                 <button
                   onClick={() => setShowLogin(false)}
-                  className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
                     !showLogin
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                   }`}
                 >
                   Register
                 </button>
               </div>
 
-              {showLogin ? <LoginForm /> : <RegisterForm />}
+              <motion.div
+                key={showLogin ? 'login' : 'register'}
+                initial={{ opacity: 0, x: showLogin ? -20 : 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {showLogin ? <LoginForm /> : <RegisterForm />}
+              </motion.div>
             </div>
           </motion.div>
         </div>
