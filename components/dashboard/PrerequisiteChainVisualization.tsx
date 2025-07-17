@@ -3,8 +3,12 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, BookOpen, Clock, Target, ArrowRight, Search, Filter, Info, X, CheckCircle, AlertCircle } from 'lucide-react'
-import { Course, University } from '@/lib/universities'
+import { Course, University, getUniversityData } from '@/lib/universities'
 import { useAuth } from '@/components/providers/AuthProvider'
+
+export interface PrerequisiteChainVisualizationProps {
+  university: string;
+}
 
 interface PrerequisiteNode {
   course: Course
@@ -21,7 +25,7 @@ interface PrerequisiteChain {
   maxLevel: number
 }
 
-export default function PrerequisiteChainVisualization() {
+export default function PrerequisiteChainVisualization({ university }: PrerequisiteChainVisualizationProps) {
   const { user } = useAuth()
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -33,151 +37,24 @@ export default function PrerequisiteChainVisualization() {
   const [selectedChain, setSelectedChain] = useState<PrerequisiteChain | null>(null)
   const [hoveredCourse, setHoveredCourse] = useState<string | null>(null)
 
-  // Mock university data - in real app, this would come from the user's university
-  const university: University = {
-    id: 'gt',
-    name: 'Georgia Institute of Technology',
-    location: 'Atlanta, GA',
-    creditSystem: 'Semester',
-    maxCreditsPerSemester: 21,
-    minCreditsPerSemester: 12,
-    graduationRequirements: {
-      totalCredits: 122,
-      categories: {}
-    },
-    courses: [
-      {
-        id: 'gt-cs3600',
-        code: 'CS 3600',
-        name: 'Introduction to Artificial Intelligence',
-        credits: 3,
-        description: 'Fundamental concepts and techniques in artificial intelligence including search, knowledge representation, and machine learning.',
-        prerequisites: ['CS 1332', 'MATH 2605'],
-        offered: 'Fall/Spring',
-        difficulty: 'Intermediate',
-        category: 'Computer Science',
-        department: 'Computer Science',
-        satisfiesRequirements: ['Computer Science Core'],
-        sections: []
-      },
-      {
-        id: 'gt-cs1332',
-        code: 'CS 1332',
-        name: 'Data Structures and Algorithms',
-        credits: 3,
-        description: 'Advanced data structures and algorithm analysis.',
-        prerequisites: ['CS 1331'],
-        offered: 'Fall/Spring',
-        difficulty: 'Intermediate',
-        category: 'Computer Science',
-        department: 'Computer Science',
-        satisfiesRequirements: ['Computer Science Core'],
-        sections: []
-      },
-      {
-        id: 'gt-cs1331',
-        code: 'CS 1331',
-        name: 'Introduction to Object-Oriented Programming',
-        credits: 3,
-        description: 'Object-oriented programming concepts using Java.',
-        prerequisites: ['CS 1301'],
-        offered: 'Fall/Spring',
-        difficulty: 'Beginner',
-        category: 'Computer Science',
-        department: 'Computer Science',
-        satisfiesRequirements: ['Computer Science Core'],
-        sections: []
-      },
-      {
-        id: 'gt-cs1301',
-        code: 'CS 1301',
-        name: 'Introduction to Computing',
-        credits: 3,
-        description: 'Introduction to computing principles and programming.',
-        prerequisites: [],
-        offered: 'Fall/Spring',
-        difficulty: 'Beginner',
-        category: 'Computer Science',
-        department: 'Computer Science',
-        satisfiesRequirements: ['Computer Science Core'],
-        sections: []
-      },
-      {
-        id: 'gt-math2605',
-        code: 'MATH 2605',
-        name: 'Linear Algebra',
-        credits: 3,
-        description: 'Vector spaces, linear transformations, eigenvalues.',
-        prerequisites: ['MATH 1554'],
-        offered: 'Fall/Spring',
-        difficulty: 'Intermediate',
-        category: 'Mathematics',
-        department: 'Mathematics',
-        satisfiesRequirements: ['Mathematics'],
-        sections: []
-      },
-      {
-        id: 'gt-math1554',
-        code: 'MATH 1554',
-        name: 'Linear Algebra',
-        credits: 2,
-        description: 'Linear algebra concepts and applications.',
-        prerequisites: ['MATH 1552'],
-        offered: 'Fall/Spring',
-        difficulty: 'Intermediate',
-        category: 'Mathematics',
-        department: 'Mathematics',
-        satisfiesRequirements: ['Mathematics'],
-        sections: []
-      },
-      {
-        id: 'gt-math1552',
-        code: 'MATH 1552',
-        name: 'Integral Calculus',
-        credits: 4,
-        description: 'Integration techniques and applications.',
-        prerequisites: ['MATH 1551'],
-        offered: 'Fall/Spring',
-        difficulty: 'Intermediate',
-        category: 'Mathematics',
-        department: 'Mathematics',
-        satisfiesRequirements: ['Mathematics'],
-        sections: []
-      },
-      {
-        id: 'gt-math1551',
-        code: 'MATH 1551',
-        name: 'Differential Calculus',
-        credits: 2,
-        description: 'Differential calculus concepts and applications.',
-        prerequisites: [],
-        offered: 'Fall/Spring',
-        difficulty: 'Beginner',
-        category: 'Mathematics',
-        department: 'Mathematics',
-        satisfiesRequirements: ['Mathematics'],
-        sections: []
-      }
-    ]
-  }
+  const courses = getUniversityData(university);
 
-  // Mock completed courses - in real app, this would come from user data
   const completedCourses = ['CS 1301', 'CS 1331', 'MATH 1551', 'MATH 1552']
   const inProgressCourses = ['CS 1332']
 
   const categories = useMemo(() => {
-    const cats = new Set(university.courses.map(course => course.category))
+    const cats = new Set(courses.map((course: Course) => course.category))
     return Array.from(cats)
-  }, [university.courses])
+  }, [courses])
 
   const filteredCourses = useMemo(() => {
-    return university.courses.filter(course => {
+    return courses.filter((course: Course) => {
       const matchesSearch = course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            course.code.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesCategory = filterCategory === 'all' || course.category === filterCategory
       return matchesSearch && matchesCategory
     })
-  }, [university.courses, searchTerm, filterCategory])
+  }, [courses, searchTerm, filterCategory])
 
   const buildPrerequisiteChain = (targetCourse: Course): PrerequisiteChain => {
     const nodes: PrerequisiteNode[] = []
@@ -207,7 +84,7 @@ export default function PrerequisiteChainVisualization() {
       nodes.push(addNode(course, level))
       
       course.prerequisites.forEach(prereqCode => {
-        const prereqCourse = university.courses.find(c => c.code === prereqCode)
+        const prereqCourse = courses.find(c => c.code === prereqCode)
         if (prereqCourse) {
           traverse(prereqCourse, level + 1)
         }

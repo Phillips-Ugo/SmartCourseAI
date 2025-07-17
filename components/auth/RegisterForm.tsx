@@ -195,11 +195,9 @@ export default function RegisterForm() {
               required
             >
               <option value="">Select your university</option>
-              {universities.map((uni) => (
-                <option key={uni.id} value={uni.name}>
-                  {uni.name} - {uni.location}
-                </option>
-              ))}
+              <option value="MIT">MIT</option>
+              <option value="Stanford">Stanford</option>
+              <option value="Illinois Institute of Technology">Illinois Institute of Technology</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-foreground-muted pointer-events-none" />
           </div>

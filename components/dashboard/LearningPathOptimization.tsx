@@ -66,7 +66,11 @@ interface LearningGoal {
   priority: 'high' | 'medium' | 'low'
 }
 
-export default function LearningPathOptimization() {
+export interface LearningPathOptimizationProps {
+  university: string;
+}
+
+export default function LearningPathOptimization({ university }: LearningPathOptimizationProps) {
   const { user } = useAuth()
   const [selectedPath, setSelectedPath] = useState<string | null>(null)
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null)

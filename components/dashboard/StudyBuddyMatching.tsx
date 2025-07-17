@@ -53,7 +53,11 @@ interface StudyGroup {
   isActive: boolean
 }
 
-export default function StudyBuddyMatching() {
+export interface StudyBuddyMatchingProps {
+  university: string;
+}
+
+export default function StudyBuddyMatching({ university }: StudyBuddyMatchingProps) {
   const { user } = useAuth()
   const [buddies, setBuddies] = useState<StudyBuddy[]>([])
   const [groups, setGroups] = useState<StudyGroup[]>([])

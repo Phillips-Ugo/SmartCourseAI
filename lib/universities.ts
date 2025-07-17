@@ -1,3 +1,7 @@
+import mitData from './universities/mit.json';
+import stanfordData from './universities/stanford.json';
+import iitData from './universities/iit.json';
+
 export interface University {
   id: string
   name: string
@@ -21,18 +25,20 @@ export interface GraduationRequirements {
 }
 
 export interface Course {
-  id: string
-  code: string
-  name: string
-  credits: number
-  description: string
-  prerequisites: string[]
-  offered: 'Fall' | 'Spring' | 'Summer' | 'Fall/Spring' | 'All'
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
-  category: string
-  department: string
-  satisfiesRequirements: string[] // Which graduation requirements this course satisfies
-  sections: CourseSection[]
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  credits: number;
+  prerequisites: string[];
+  department: string;
+  category: string;
+  professors: { name: string; rating?: number }[];
+  summary: string;
+  offered?: string;
+  difficulty?: string;
+  satisfiesRequirements?: string[];
+  sections?: any[];
 }
 
 export interface CourseSection {
@@ -51,6 +57,8 @@ export interface Schedule {
   endTime: string
   type: 'Lecture' | 'Lab' | 'Discussion' | 'Recitation'
 }
+
+export type UniversityCatalog = Course[];
 
 export const universities: University[] = [
   {
@@ -103,6 +111,8 @@ export const universities: University[] = [
         category: 'Computer Science',
         department: 'Computer Science',
         satisfiesRequirements: ['Computer Science Core'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'gt-cs3600-001',
@@ -131,6 +141,8 @@ export const universities: University[] = [
         category: 'Computer Science',
         department: 'Computer Science',
         satisfiesRequirements: ['Computer Science Core'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'gt-cs1332-001',
@@ -158,6 +170,8 @@ export const universities: University[] = [
         category: 'Mathematics',
         department: 'Mathematics',
         satisfiesRequirements: ['Mathematics'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'gt-math2605-001',
@@ -186,6 +200,8 @@ export const universities: University[] = [
         category: 'Social Sciences',
         department: 'Psychology',
         satisfiesRequirements: ['Social Sciences'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'gt-psyc1101-001',
@@ -213,6 +229,8 @@ export const universities: University[] = [
         category: 'Social Sciences',
         department: 'Economics',
         satisfiesRequirements: ['Social Sciences'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'gt-econ2100-001',
@@ -240,6 +258,8 @@ export const universities: University[] = [
         category: 'Humanities',
         department: 'English',
         satisfiesRequirements: ['Humanities'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'gt-engl1101-001',
@@ -302,6 +322,8 @@ export const universities: University[] = [
         category: 'Computer Science',
         department: 'Electrical Engineering and Computer Science',
         satisfiesRequirements: ['Computer Science Core'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'mit-6-034-001',
@@ -365,6 +387,8 @@ export const universities: University[] = [
         category: 'Computer Science',
         department: 'Computer Science',
         satisfiesRequirements: ['Computer Science Core'],
+        professors: [],
+        summary: '',
         sections: [
           {
             id: 'stanford-cs221-001',
@@ -384,6 +408,19 @@ export const universities: University[] = [
     ]
   }
 ]
+
+export function getUniversityData(university: string): UniversityCatalog {
+  switch (university) {
+    case 'mit':
+      return mitData;
+    case 'stanford':
+      return stanfordData;
+    case 'iit':
+      return iitData;
+    default:
+      return [];
+  }
+}
 
 export const getUniversityById = (id: string): University | undefined => {
   return universities.find(uni => uni.id === id)

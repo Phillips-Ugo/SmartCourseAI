@@ -6,6 +6,10 @@ import { Brain, Target, Clock, TrendingUp, AlertTriangle, CheckCircle, BookOpen,
 import { useAuth } from '@/components/providers/AuthProvider'
 import { Course } from '@/lib/universities'
 
+export interface CourseLoadOptimizationProps {
+  university: string;
+}
+
 interface CourseLoad {
   course: Course
   difficulty: number // 1-10 scale
@@ -37,7 +41,7 @@ interface OptimizationRecommendation {
   reasoning: string[]
 }
 
-export default function CourseLoadOptimization() {
+const CourseLoadOptimization: React.FC<CourseLoadOptimizationProps> = ({ university }) => {
   const { user } = useAuth()
   const [optimizationProfile, setOptimizationProfile] = useState<OptimizationProfile>({
     maxCredits: 15,
@@ -68,7 +72,9 @@ export default function CourseLoadOptimization() {
         category: 'Computer Science',
         department: 'Computer Science',
         satisfiesRequirements: ['Computer Science Core'],
-        sections: []
+        sections: [],
+        professors: [],
+        summary: ''
       },
       difficulty: 7,
       timeCommitment: 12,
@@ -89,7 +95,9 @@ export default function CourseLoadOptimization() {
         category: 'Computer Science',
         department: 'Computer Science',
         satisfiesRequirements: ['Computer Science Core'],
-        sections: []
+        sections: [],
+        professors: [],
+        summary: ''
       },
       difficulty: 8,
       timeCommitment: 15,
@@ -110,7 +118,9 @@ export default function CourseLoadOptimization() {
         category: 'Mathematics',
         department: 'Mathematics',
         satisfiesRequirements: ['Mathematics'],
-        sections: []
+        sections: [],
+        professors: [],
+        summary: ''
       },
       difficulty: 6,
       timeCommitment: 10,
@@ -131,7 +141,9 @@ export default function CourseLoadOptimization() {
         category: 'Social Sciences',
         department: 'Psychology',
         satisfiesRequirements: ['Social Sciences'],
-        sections: []
+        sections: [],
+        professors: [],
+        summary: ''
       },
       difficulty: 3,
       timeCommitment: 6,
@@ -152,7 +164,9 @@ export default function CourseLoadOptimization() {
         category: 'Humanities',
         department: 'English',
         satisfiesRequirements: ['Humanities'],
-        sections: []
+        sections: [],
+        professors: [],
+        summary: ''
       },
       difficulty: 4,
       timeCommitment: 8,
@@ -173,7 +187,9 @@ export default function CourseLoadOptimization() {
         category: 'Natural Sciences',
         department: 'Physics',
         satisfiesRequirements: ['Natural Sciences'],
-        sections: []
+        sections: [],
+        professors: [],
+        summary: ''
       },
       difficulty: 7,
       timeCommitment: 14,
@@ -579,3 +595,5 @@ export default function CourseLoadOptimization() {
     </div>
   )
 } 
+
+export default CourseLoadOptimization; 

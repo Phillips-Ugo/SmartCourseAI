@@ -52,7 +52,11 @@ interface TutoringRequest {
   status: 'open' | 'matched' | 'completed'
 }
 
-export default function PeerTutoringNetwork() {
+export interface PeerTutoringNetworkProps {
+  university: string;
+}
+
+export default function PeerTutoringNetwork({ university }: PeerTutoringNetworkProps) {
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState<'find-tutor' | 'my-sessions' | 'requests' | 'become-tutor'>('find-tutor')
   const [selectedSubject, setSelectedSubject] = useState<string>('all')

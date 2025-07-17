@@ -10,7 +10,11 @@ interface Message {
   timestamp: Date
 }
 
-export default function AIChatbot() {
+export interface AIChatbotProps {
+  university: string;
+}
+
+export default function AIChatbot({ university }: AIChatbotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',

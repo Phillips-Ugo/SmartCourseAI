@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/components/providers/AuthProvider'
 import Header from '@/components/layout/Header'
 import CourseRecommendationForm from './CourseRecommendationForm'
@@ -83,6 +83,12 @@ const featureCategories = {
   }
 }
 
+const UNIVERSITY_OPTIONS = [
+  { value: 'mit', label: 'MIT' },
+  { value: 'stanford', label: 'Stanford' },
+  { value: 'iit', label: 'Illinois Institute of Technology' },
+];
+
 export default function Dashboard() {
   const { user } = useAuth()
   const [recommendations, setRecommendations] = useState<(Course & { reason: string })[]>([])
@@ -90,6 +96,15 @@ export default function Dashboard() {
   const [showChatbot, setShowChatbot] = useState(false)
   const [activeFeature, setActiveFeature] = useState<ActiveFeature>('recommendations')
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  // Remove selectedUniversity state and university selector
+  // Use user.university (or user.universityId) as the university prop
+  const university = user?.university || user?.universityId || 'mit';
+
+  // Optionally, reset recommendations/courses when university changes
+  useEffect(() => {
+    setRecommendations([]);
+    setScheduledCourses([]);
+  }, [university]);
 
   const handleGetRecommendations = (courses: (Course & { reason: string })[]) => {
     setRecommendations(courses)
@@ -121,41 +136,41 @@ export default function Dashboard() {
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-1">
                 <div className="space-y-6">
-                  <CourseRecommendationForm onGetRecommendations={handleGetRecommendations} />
-                  <GraduationProgress />
-                  <UniversityDebug />
+                  <CourseRecommendationForm onGetRecommendations={handleGetRecommendations} university={university} />
+                  <GraduationProgress university={university} />
+                  <UniversityDebug university={university} />
                 </div>
               </div>
               <div className="lg:col-span-2">
-                <CourseRecommendations courses={recommendations} />
+                <CourseRecommendations courses={recommendations} university={university} />
               </div>
             </div>
           </div>
         )
       case 'schedule':
-        return <CourseSchedule scheduledCourses={scheduledCourses} onRemoveCourse={handleRemoveCourse} onAddCourse={handleAddCourse} />
+        return <CourseSchedule scheduledCourses={scheduledCourses} onRemoveCourse={handleRemoveCourse} onAddCourse={handleAddCourse} university={university} />
       case 'chatbot':
-        return <AIChatbot />
+        return <AIChatbot university={university} />
       case 'quiz':
-        return <AICourseMatchingQuiz />
+        return <AICourseMatchingQuiz university={university} />
       case 'buddies':
-        return <StudyBuddyMatching />
+        return <StudyBuddyMatching university={university} />
       case 'professors':
-        return <ProfessorRecommendations />
+        return <ProfessorRecommendations university={university} />
       case 'prerequisites':
-        return <PrerequisiteChainVisualization />
+        return <PrerequisiteChainVisualization university={university} />
       case 'performance':
-        return <AcademicPerformanceDashboard />
+        return <AcademicPerformanceDashboard university={university} />
       case 'optimization':
-        return <CourseLoadOptimization />
+        return <CourseLoadOptimization university={university} />
       case 'learning-path':
-        return <LearningPathOptimization />
+        return <LearningPathOptimization university={university} />
       case 'compatibility':
-        return <AICourseCompatibilityMatrix />
+        return <AICourseCompatibilityMatrix university={university} />
       case 'tutoring':
-        return <PeerTutoringNetwork />
+        return <PeerTutoringNetwork university={university} />
       case 'reminders':
-        return <PersonalizedStudyReminders />
+        return <PersonalizedStudyReminders university={university} />
       default:
         return (
           <div className="glass-card p-8 text-center">
@@ -292,6 +307,21 @@ export default function Dashboard() {
                 Ready to discover your next courses? Let AI guide your academic journey.
               </p>
             </motion.div>
+
+            {/* Remove the <select> and label for university selection from the main content area */}
+            {/* <div className="mb-6 flex items-center gap-4">
+              <label htmlFor="university-select" className="text-white font-semibold">University:</label>
+              <select
+                id="university-select"
+                value={university}
+                onChange={e => setUniversity(e.target.value)}
+                className="px-3 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {UNIVERSITY_OPTIONS.map(u => (
+                  <option key={u.value} value={u.value}>{u.label}</option>
+                ))}
+              </select>
+            </div> */}
 
             {/* Content Area */}
             <div className="mb-4">

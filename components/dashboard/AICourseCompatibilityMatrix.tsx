@@ -6,6 +6,10 @@ import { Brain, Target, Star, Users, Clock, TrendingUp, CheckCircle, X, AlertTri
 import { useAuth } from '@/components/providers/AuthProvider'
 import { Course } from '@/lib/universities'
 
+export interface AICourseCompatibilityMatrixProps {
+  university: string;
+}
+
 interface CompatibilityScore {
   courseId: string
   overallScore: number
@@ -38,7 +42,7 @@ interface CourseMatch {
   reasoning: string[]
 }
 
-export default function AICourseCompatibilityMatrix() {
+export default function AICourseCompatibilityMatrix({ university }: AICourseCompatibilityMatrixProps) {
   const { user } = useAuth()
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null)
   const [filterRecommendation, setFilterRecommendation] = useState<string>('all')
@@ -70,7 +74,9 @@ export default function AICourseCompatibilityMatrix() {
       category: 'Computer Science',
       department: 'Computer Science',
       satisfiesRequirements: ['Computer Science Core'],
-      sections: []
+      sections: [],
+      professors: [],
+      summary: ''
     },
     {
       id: 'gt-cs1332',
@@ -84,7 +90,9 @@ export default function AICourseCompatibilityMatrix() {
       category: 'Computer Science',
       department: 'Computer Science',
       satisfiesRequirements: ['Computer Science Core'],
-      sections: []
+      sections: [],
+      professors: [],
+      summary: ''
     },
     {
       id: 'gt-math2605',
@@ -98,7 +106,9 @@ export default function AICourseCompatibilityMatrix() {
       category: 'Mathematics',
       department: 'Mathematics',
       satisfiesRequirements: ['Mathematics'],
-      sections: []
+      sections: [],
+      professors: [],
+      summary: ''
     },
     {
       id: 'gt-psyc1101',
@@ -112,7 +122,9 @@ export default function AICourseCompatibilityMatrix() {
       category: 'Social Sciences',
       department: 'Psychology',
       satisfiesRequirements: ['Social Sciences'],
-      sections: []
+      sections: [],
+      professors: [],
+      summary: ''
     },
     {
       id: 'gt-engl1101',
@@ -126,7 +138,9 @@ export default function AICourseCompatibilityMatrix() {
       category: 'Humanities',
       department: 'English',
       satisfiesRequirements: ['Humanities'],
-      sections: []
+      sections: [],
+      professors: [],
+      summary: ''
     }
   ]
 
@@ -215,7 +229,7 @@ export default function AICourseCompatibilityMatrix() {
         case 'score':
           return b.compatibility.overallScore - a.compatibility.overallScore
         case 'difficulty':
-          return a.course.difficulty.localeCompare(b.course.difficulty)
+          return (a.course.difficulty ?? '').localeCompare(b.course.difficulty ?? '')
         case 'credits':
           return a.course.credits - b.course.credits
         default:

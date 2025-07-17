@@ -4,6 +4,13 @@ import { useState } from 'react'
 import { Calendar, Clock, MapPin, Users, Trash2, Plus } from 'lucide-react'
 import { Course, CourseSection, Schedule } from '@/lib/universities'
 
+export interface CourseScheduleProps {
+  scheduledCourses: ScheduledCourse[]
+  onRemoveCourse: (courseId: string) => void
+  onAddCourse: (course: Course, section: CourseSection) => void
+  university: string;
+}
+
 interface ScheduledCourse {
   id: string
   course: Course
@@ -11,16 +18,11 @@ interface ScheduledCourse {
   semester: string
 }
 
-interface CourseScheduleProps {
-  scheduledCourses: ScheduledCourse[]
-  onRemoveCourse: (courseId: string) => void
-  onAddCourse: (course: Course, section: CourseSection) => void
-}
-
 export default function CourseSchedule({ 
   scheduledCourses, 
   onRemoveCourse, 
-  onAddCourse 
+  onAddCourse, 
+  university 
 }: CourseScheduleProps) {
   const [selectedSemester, setSelectedSemester] = useState('Fall 2024')
   const [showAddModal, setShowAddModal] = useState(false)

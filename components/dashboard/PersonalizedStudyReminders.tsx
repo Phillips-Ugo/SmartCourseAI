@@ -18,7 +18,11 @@ interface StudyReminder {
   completed: boolean
 }
 
-export default function PersonalizedStudyReminders() {
+export interface PersonalizedStudyRemindersProps {
+  university: string;
+}
+
+export default function PersonalizedStudyReminders({ university }: PersonalizedStudyRemindersProps) {
   const { user } = useAuth()
   const [reminders, setReminders] = useState<StudyReminder[]>([{
     id: '1',

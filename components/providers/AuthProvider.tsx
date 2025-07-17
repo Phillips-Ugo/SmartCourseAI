@@ -21,12 +21,13 @@ interface User {
 }
 
 interface AuthContextType {
-  user: User | null
-  login: (email: string, password: string) => Promise<void>
-  register: (userData: Omit<User, 'id'> & { password: string }) => Promise<void>
-  logout: () => void
-  loading: boolean
-  showNotification: (message: string, type: 'success' | 'error' | 'info') => void
+  user: User | null;
+  login: (email: string, password: string) => Promise<void>;
+  register: (userData: Omit<User, 'id'> & { password: string }) => Promise<void>;
+  logout: () => void;
+  loading: boolean;
+  showNotification: (message: string, type: 'success' | 'error' | 'info') => void;
+  updateProfile: (updates: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -141,8 +142,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('smartcourseai_user')
   }
 
+  const updateProfile = async (updates: Partial<User>) => {
+    if (!user) return;
+    const updatedUser = { ...user, ...updates };
+    setUser(updatedUser);
+    localStorage.setItem('smartcourseai_user', JSON.stringify(updatedUser));
+    showNotification('Profile updated!', 'success');
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading, showNotification }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, showNotification, updateProfile }}>
       {children}
     </AuthContext.Provider>
   )

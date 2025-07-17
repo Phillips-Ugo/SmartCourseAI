@@ -64,7 +64,11 @@ interface Review {
   notHelpful: number
 }
 
-export default function ProfessorRecommendations() {
+export interface ProfessorRecommendationsProps {
+  university: string;
+}
+
+export default function ProfessorRecommendations({ university }: ProfessorRecommendationsProps) {
   const [professors, setProfessors] = useState<Professor[]>([])
   const [reviews, setReviews] = useState<Review[]>([])
   const [selectedProfessor, setSelectedProfessor] = useState<Professor | null>(null)

@@ -39,7 +39,11 @@ interface PerformanceMetrics {
   improvementRate: number
 }
 
-export default function AcademicPerformanceDashboard() {
+export interface AcademicPerformanceDashboardProps {
+  university: string;
+}
+
+export default function AcademicPerformanceDashboard({ university }: { university: string }) {
   const { user } = useAuth()
   const [selectedSemester, setSelectedSemester] = useState<string>('all')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')

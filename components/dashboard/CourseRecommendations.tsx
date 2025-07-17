@@ -6,14 +6,16 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, Clock, Users, Star, ChevronRight, Calendar, Target, Zap } from 'lucide-react'
 
 interface CourseWithReason extends Course {
-  reason: string
+  reason: string;
+  bestProfessor?: { name: string; rating: number };
 }
 
-interface Props {
-  courses: CourseWithReason[]
+export interface CourseRecommendationsProps {
+  courses: CourseWithReason[];
+  university: string;
 }
 
-export default function CourseRecommendations({ courses }: Props) {
+const CourseRecommendations: React.FC<CourseRecommendationsProps> = ({ courses, university }) => {
   const [selectedCourse, setSelectedCourse] = useState<CourseWithReason | null>(null)
   const [hoveredCourse, setHoveredCourse] = useState<string | null>(null)
 
@@ -114,8 +116,8 @@ export default function CourseRecommendations({ courses }: Props) {
                   </div>
                   
                   {/* Difficulty Badge */}
-                  <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(course.difficulty)}`}>
-                    {course.difficulty}
+                  <div className={`px-3 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(course.difficulty ?? "")}`}>
+                    {course.difficulty ?? "Unknown"}
                   </div>
                 </div>
 
@@ -207,7 +209,7 @@ export default function CourseRecommendations({ courses }: Props) {
                              <div>
                                <p className="text-sm font-medium text-white">{section.instructor}</p>
                                <p className="text-xs text-gray-400">
-                                 {section.schedule.map(s => `${s.day} ${s.startTime}-${s.endTime}`).join(', ')}
+                                 {section.schedule.map((s: any) => `${s.day} ${s.startTime}-${s.endTime}`).join(', ')}
                                </p>
                              </div>
                              <div className="text-right">
@@ -218,6 +220,13 @@ export default function CourseRecommendations({ courses }: Props) {
                          ))}
                        </div>
                      </div>
+
+                    {selectedCourse?.bestProfessor && (
+                      <div className="mt-4 flex items-center gap-2 text-yellow-300">
+                        <Star className="w-5 h-5 text-yellow-400" />
+                        <span>Best Professor: {selectedCourse.bestProfessor.name} ({selectedCourse.bestProfessor.rating.toFixed(1)}/5.0)</span>
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -226,5 +235,7 @@ export default function CourseRecommendations({ courses }: Props) {
         </AnimatePresence>
       </div>
     </div>
-  )
-} 
+  );
+};
+
+export default CourseRecommendations; 

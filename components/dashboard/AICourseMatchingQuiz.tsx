@@ -153,7 +153,11 @@ const quizQuestions: QuizQuestion[] = [
   }
 ]
 
-export default function AICourseMatchingQuiz() {
+export interface AICourseMatchingQuizProps {
+  university: string;
+}
+
+export default function AICourseMatchingQuiz({ university }: AICourseMatchingQuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [showResults, setShowResults] = useState(false)

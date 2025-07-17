@@ -3,8 +3,13 @@
 import { useAuth } from '@/components/providers/AuthProvider'
 import { getGraduationRequirements } from '@/lib/universities'
 import { CheckCircle, Clock, AlertCircle } from 'lucide-react'
+import React from 'react';
 
-export default function GraduationProgress() {
+export interface GraduationProgressProps {
+  university: string;
+}
+
+const GraduationProgress: React.FC<GraduationProgressProps> = ({ university }) => {
   const { user } = useAuth()
   
   if (!user?.universityId) {
@@ -154,3 +159,5 @@ export default function GraduationProgress() {
     </div>
   )
 } 
+
+export default GraduationProgress; 
