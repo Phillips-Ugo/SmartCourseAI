@@ -3,15 +3,15 @@
 import { useAuth } from '@/components/providers/AuthProvider'
 import { getUniversityById, getGraduationRequirements } from '@/lib/universities'
 
-export default function UniversityDebug() {
+export default function UniversityInfo() {
   const { user } = useAuth()
   
   if (!user?.universityId) {
     return (
-      <div className="card bg-yellow-50 border-yellow-200">
-        <h3 className="text-lg font-semibold text-yellow-900 mb-2">Debug Info</h3>
-        <p className="text-yellow-800">No university ID found for user</p>
-        <p className="text-sm text-yellow-700">User university: {user?.university}</p>
+      <div className="card bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-700/40">
+        <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-200 mb-2">University Info</h3>
+        <p className="text-yellow-800 dark:text-yellow-100">No university ID found for user</p>
+        <p className="text-sm text-yellow-700 dark:text-yellow-200">User university: {user?.university}</p>
       </div>
     )
   }
@@ -21,17 +21,17 @@ export default function UniversityDebug() {
   
   if (!university || !graduationRequirements) {
     return (
-      <div className="card bg-red-50 border-red-200">
-        <h3 className="text-lg font-semibold text-red-900 mb-2">Debug Info</h3>
-        <p className="text-red-800">University or requirements not found</p>
-        <p className="text-sm text-red-700">University ID: {user.universityId}</p>
+      <div className="card bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-700/40">
+        <h3 className="text-lg font-semibold text-red-900 dark:text-red-200 mb-2">University Info</h3>
+        <p className="text-red-800 dark:text-red-100">University or requirements not found</p>
+        <p className="text-sm text-red-700 dark:text-red-200">University ID: {user.universityId}</p>
       </div>
     )
   }
 
   return (
-    <div className="card bg-blue-50 border-blue-200">
-      <h3 className="text-lg font-semibold text-blue-900 mb-2">University Debug Info</h3>
+    <div className="card bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-700/40">
+      <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-200 mb-2">University Info</h3>
       
       <div className="space-y-2 text-sm">
         <div>
@@ -64,7 +64,7 @@ export default function UniversityDebug() {
               </li>
             ))}
             {Object.keys(user.completedCourses || {}).length === 0 && (
-              <li className="text-gray-600">No completed courses recorded</li>
+              <li className="text-gray-600 dark:text-gray-300">No completed courses recorded</li>
             )}
           </ul>
         </div>
@@ -78,7 +78,7 @@ export default function UniversityDebug() {
               </li>
             ))}
             {university.courses.length > 3 && (
-              <li className="text-gray-600">... and {university.courses.length - 3} more</li>
+              <li className="text-gray-600 dark:text-gray-300">... and {university.courses.length - 3} more</li>
             )}
           </ul>
         </div>

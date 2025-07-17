@@ -12,7 +12,6 @@ export default function CourseRecommendationForm({ onGetRecommendations }: Cours
   const { user } = useAuth()
   const [formData, setFormData] = useState({
     additionalInterests: '',
-    preferredCredits: '3',
     difficulty: 'Intermediate',
     semester: 'Fall 2024',
     careerGoals: '',
@@ -153,22 +152,7 @@ export default function CourseRecommendationForm({ onGetRecommendations }: Cours
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Preferred Credits per Course
-          </label>
-          <select
-            name="preferredCredits"
-            value={formData.preferredCredits}
-            onChange={handleChange}
-            className="input-field"
-          >
-            <option value="1">1 Credit</option>
-            <option value="2">2 Credits</option>
-            <option value="3">3 Credits</option>
-            <option value="4">4 Credits</option>
-          </select>
-        </div>
+
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

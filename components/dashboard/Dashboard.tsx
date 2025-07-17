@@ -7,7 +7,7 @@ import CourseRecommendationForm from './CourseRecommendationForm'
 import CourseRecommendations from './CourseRecommendations'
 import CourseSchedule from './CourseSchedule'
 import GraduationProgress from './GraduationProgress'
-import UniversityDebug from './UniversityDebug'
+import UniversityInfo from './UniversityDebug'
 import AIChatbot from './AIChatbot'
 import AICourseMatchingQuiz from './AICourseMatchingQuiz'
 import StudyBuddyMatching from './StudyBuddyMatching'
@@ -123,7 +123,7 @@ export default function Dashboard() {
                 <div className="space-y-6">
                   <CourseRecommendationForm onGetRecommendations={handleGetRecommendations} />
                   <GraduationProgress />
-                  <UniversityDebug />
+                  <UniversityInfo />
                 </div>
               </div>
               <div className="lg:col-span-2">
