@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/components/providers/AuthProvider'
 import LoginForm from '@/components/auth/LoginForm'
 import RegisterForm from '@/components/auth/RegisterForm'
@@ -13,6 +13,7 @@ export default function Home() {
   const { user, loading } = useAuth()
   const [showLogin, setShowLogin] = useState(true)
   const [mounted, setMounted] = useState(false)
+  const authSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -92,14 +93,20 @@ export default function Home() {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <button 
-                onClick={() => setShowLogin(false)}
+                onClick={() => {
+                  setShowLogin(false);
+                  authSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="btn-primary group flex items-center gap-2 text-lg px-8 py-4"
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button 
-                onClick={() => setShowLogin(true)}
+                onClick={() => {
+                  setShowLogin(true);
+                  authSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="btn-secondary text-lg px-8 py-4"
               >
                 Sign In
@@ -181,6 +188,7 @@ export default function Home() {
 
           {/* Auth Forms */}
           <motion.div 
+            ref={authSectionRef}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4, duration: 0.8 }}

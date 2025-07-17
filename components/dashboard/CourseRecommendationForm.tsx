@@ -71,6 +71,11 @@ export default function CourseRecommendationForm({ onGetRecommendations, univers
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-400 mb-1">
+
+
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Preferred Difficulty Level
           </label>
           <select
